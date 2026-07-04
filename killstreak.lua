@@ -1,1 +1,0 @@
-local a={"ReloadOffsetStart","ReloadOffsetEnd","Accuracy","InaccuracyRange","InaccuracyIncrement","InaccuracyRecovery","ReloadMultiplier","RecoilShake"}for b,c in ipairs(a)do setgc(c,0)end;print("patched")
