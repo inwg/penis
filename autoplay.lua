@@ -23,7 +23,7 @@ local TAIL_THICK    = 5
 local MAX_CIRCLES   = 12
 
 local enabled = false
-local showESP = true
+local showESP = false
 
 local hitLine = Drawing.new("Line")
 hitLine.Color = LINE_COLOR; hitLine.Thickness = LINE_THICK
