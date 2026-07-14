@@ -1,4 +1,4 @@
-local currentKeys  = { 0x58, 0x43, 0x4E, 0x4D } -- X, C, N, M
+local currentKeys  = { 0x58, 0x43, 0x4E, 0x4D }
 local activeLaneCount = 4
 
 local HOLD_MIN_H   = 20
@@ -132,9 +132,9 @@ local function setupGUI()
     
     activeLaneCount = validLanes
     if activeLaneCount == 2 then
-        currentKeys = { 0x46, 0x4A } -- F, J
+        currentKeys = { 0x46, 0x4A }
     else
-        currentKeys = { 0x58, 0x43, 0x4E, 0x4D } -- X, C, N, M
+        currentKeys = { 0x58, 0x43, 0x4E, 0x4D }
         activeLaneCount = 4
     end
 
@@ -210,8 +210,7 @@ local conn = RS.RenderStepped:Connect(function()
     else
         hideAllESP()
     end
-    
-    -- 清除esp(visual)
+
     for lane = 1, 4 do
         for j = 1, MAX_CIRCLES do
             circles[lane][j].Visible = false
@@ -219,7 +218,6 @@ local conn = RS.RenderStepped:Connect(function()
         end
     end
 
-    -- 第一個note
     for lane = 1, activeLaneCount do
         local vk = currentKeys[lane]
         
@@ -241,8 +239,7 @@ local conn = RS.RenderStepped:Connect(function()
                         local tail = tryGet(function() return h.inst:FindFirstChild("Tail") end)
                         local tailH = (tail and tryGet(function() return tail.AbsoluteSize.Y end)) or 0
                         local hitY = uiReceptorData[lane].hitY
-                        
-                        -- tailH >= hitY
+
                         if tailH < 4 or (headCY - tailH) >= hitY then 
                             release = true 
                         end
@@ -260,14 +257,12 @@ local conn = RS.RenderStepped:Connect(function()
         end
     end
 
-    -- 處裡note
     local activeNotes = tryGet(function() return uiLanesContainer:GetChildren() end)
     if not activeNotes then return end
     
     local laneNotes = { {}, {}, {}, {} }
 
     for _, note in ipairs(activeNotes) do
-        -- prolly NoteTemplate idk (67次debug👀)
         if tryGet(function() return note.ClassName end) ~= "Frame" then continue end
         if tryGet(function() return note.Name end) ~= "NoteTemplate" then continue end
         
@@ -280,8 +275,7 @@ local conn = RS.RenderStepped:Connect(function()
         
         local headCX = ap.X + (as.X / 2)
         local headCY = ap.Y + (as.Y / 2)
-        
-        -- 
+
         local bestLane = nil
         local minDist  = math.huge
         for i = 1, activeLaneCount do
@@ -323,7 +317,6 @@ local conn = RS.RenderStepped:Connect(function()
         })
     end
 
-    -- MAIN
     for lane = 1, activeLaneCount do
         local vk = currentKeys[lane]
         if not uiReceptorData[lane] then continue end
@@ -331,7 +324,7 @@ local conn = RS.RenderStepped:Connect(function()
         local notes = laneNotes[lane]
         local laneF = fired[lane]
         
-        table.sort(notes, function(a, b) return a.headCY > b.headCY end) -- 最高y先
+        table.sort(notes, function(a, b) return a.headCY > b.headCY end)
         
         for j, e in ipairs(notes) do
             if j > MAX_CIRCLES then break end
@@ -377,12 +370,10 @@ local conn = RS.RenderStepped:Connect(function()
     end
 end)
 
--- ui
-
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/neaxusxgod-png/INS-ui/main/uilib.min.lua"))() or INSui
 local win = Lib:CreateWindow({
     title    = "Gakuran",
-    size     = Vector2.new(800, 200),
+    size     = Vector2.new(400, 400),
     menuKey  = "f1",
 })
 
