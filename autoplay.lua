@@ -1,4 +1,5 @@
-local LANE_KEYS    = { 0x58, 0x43, 0x4E, 0x4D } -- X, C, N, M
+local currentKeys  = { 0x58, 0x43, 0x4E, 0x4D } -- X, C, N, M
+local activeLaneCount = 4
 
 local HOLD_MIN_H   = 20
 local TAP_HOLD_SEC = 0.05
@@ -73,7 +74,9 @@ local fired      = {} for i = 1, 4 do fired[i]      = {}    end
 
 local function releaseAllKeys()
     for i = 1, 4 do
-        keyrelease(LANE_KEYS[i])
+        if currentKeys[i] then
+            keyrelease(currentKeys[i])
+        end
         tapping[i] = false
         holding[i] = nil
         fired[i]   = {}
@@ -125,8 +128,16 @@ local function setupGUI()
         end
     end
 
-    if validLanes < 4 then return false end
+    if validLanes == 0 then return false end
     
+    activeLaneCount = validLanes
+    if activeLaneCount == 2 then
+        currentKeys = { 0x4A, 0x4B } -- J, K
+    else
+        currentKeys = { 0x58, 0x43, 0x4E, 0x4D } -- X, C, N, M
+        activeLaneCount = 4
+    end
+
     uiReceptorData   = newReceptors
     uiLanesContainer = lanesHost
     guiActive        = true
@@ -135,8 +146,8 @@ local function setupGUI()
     local cam = game:GetService("Workspace").CurrentCamera
     if cam then scale = cam.ViewportSize.Y / 1080 end
 
-    local lx = (newReceptors[1].cx or 0) - (50 * scale)
-    local rx = (newReceptors[4].cx or 0) + (50 * scale)
+    local lx = (newReceptors[1] and newReceptors[1].cx or 0) - (50 * scale)
+    local rx = (newReceptors[activeLaneCount] and newReceptors[activeLaneCount].cx or 0) + (50 * scale)
     local y  = newReceptors[1].hitY
     
     hitLine.From    = Vector2.new(lx, y)
@@ -209,8 +220,8 @@ local conn = RS.RenderStepped:Connect(function()
     end
 
     -- 第一個note
-    for lane = 1, 4 do
-        local vk = LANE_KEYS[lane]
+    for lane = 1, activeLaneCount do
+        local vk = currentKeys[lane]
         
         if tapping[lane] and now >= tapRelease[lane] then
             keyrelease(vk)
@@ -273,7 +284,8 @@ local conn = RS.RenderStepped:Connect(function()
         -- 
         local bestLane = nil
         local minDist  = math.huge
-        for i = 1, 4 do
+        for i = 1, activeLaneCount do
+            if not uiReceptorData[i] then continue end
             local recCX = uiReceptorData[i].cx
             local distX = math.abs(headCX - recCX)
             if distX < minDist then
@@ -312,8 +324,9 @@ local conn = RS.RenderStepped:Connect(function()
     end
 
     -- MAIN
-    for lane = 1, 4 do
-        local vk = LANE_KEYS[lane]
+    for lane = 1, activeLaneCount do
+        local vk = currentKeys[lane]
+        if not uiReceptorData[lane] then continue end
         local cx = uiReceptorData[lane].cx
         local notes = laneNotes[lane]
         local laneF = fired[lane]
@@ -329,16 +342,19 @@ local conn = RS.RenderStepped:Connect(function()
                 local t      = tails[lane][j]
                 local col    = onLine and COLOR_ON_LINE or (e.isHold and COLOR_HOLD or LANE_COLORS[lane])
 
+                local offX = (activeLaneCount == 2) and (15 * scale) or 0
+                local offY = (activeLaneCount == 2) and (15 * scale) or 0
+
                 c.Color     = col
                 c.Radius    = CIRCLE_RADIUS * scale
                 c.Thickness = CIRCLE_THICK * scale
                 c.Filled    = e.isHold and not onLine
-                c.Position  = Vector2.new(cx, e.headCY)
+                c.Position  = Vector2.new(cx - offX, e.headCY - offY)
                 c.Visible   = true
 
                 if e.isHold and e.tailH > 0 then
-                    t.From      = Vector2.new(cx, e.headCY)
-                    t.To        = Vector2.new(cx, e.headCY - e.tailH)
+                    t.From      = Vector2.new(cx - offX, e.headCY - offY)
+                    t.To        = Vector2.new(cx - offX, e.headCY - e.tailH - offY)
                     t.Thickness = TAIL_THICK * scale
                     t.Color     = col
                     t.Visible   = true
@@ -374,38 +390,6 @@ local win = Lib:CreateWindow({
 local mainTab = win:Tab("Main", "music")
 local settingsSec = mainTab:Section("Autoplay Settings", "Full")
 
---[[
-local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/neaxusxgod-png/INS-ui/main/uilib.min.lua"))() or INSui
-local win = Lib:CreateWindow({
-    title    = "Gakuran",
-    subtitle = "MANIA掛",
-    size     = Vector2.new(400, 200),
-    menuKey  = "f1",
-})
-
-local mainTab = win:Tab("Main", "music")
-local settingsSec = mainTab:Section("Autoplay Settings", "Full")
-
-settingsSec:Toggle("自動點擊", false, function(v)
-    enabled = v
-    if not enabled then
-        releaseAllKeys()
-        hideAllESP()
-    end
-end)
-
-settingsSec:Toggle("note視覺", true, function(v)
-    showESP = v
-    if not showESP then hideAllESP() end
-end)
-
-settingsSec:Button("退出", function()
-    running = false
-    conn:Disconnect()
-    releaseAllKeys()
-    removeAll()
-end)
-]]
 
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/neaxusxgod-png/INS-ui/main/uilib.min.lua"))() or INSui
 local win = Lib:CreateWindow({
