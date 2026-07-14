@@ -381,20 +381,8 @@ end)
 
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/neaxusxgod-png/INS-ui/main/uilib.min.lua"))() or INSui
 local win = Lib:CreateWindow({
-    title    = "Instrument Autoplay",
-    subtitle = "Gakuran",
-    size     = Vector2.new(400, 200),
-    menuKey  = "f1",
-})
-
-local mainTab = win:Tab("Main", "music")
-local settingsSec = mainTab:Section("Autoplay Settings", "Full")
-
-
-local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/neaxusxgod-png/INS-ui/main/uilib.min.lua"))() or INSui
-local win = Lib:CreateWindow({
     title    = "Gakuran",
-    size     = Vector2.new(800, 400),
+    size     = Vector2.new(800, 200),
     menuKey  = "f1",
 })
 
