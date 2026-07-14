@@ -388,11 +388,11 @@ settingsSec:Toggle("autoplay", false, function(v)
     end
 end)
 
-settingsSec:Toggle("visual", true, function(v)
+settingsSec:Toggle("visual", false, function(v)
     showESP = v
     if not showESP then hideAllESP() end
 end)
 
 pcall(function()
-    notify("loaded", 3)
+    notify("loaded")
 end)
