@@ -132,7 +132,7 @@ local function setupGUI()
     
     activeLaneCount = validLanes
     if activeLaneCount == 2 then
-        currentKeys = { 0x4A, 0x4B } -- J, K
+        currentKeys = { 0x46, 0x4A } -- F, J
     else
         currentKeys = { 0x58, 0x43, 0x4E, 0x4D } -- X, C, N, M
         activeLaneCount = 4
