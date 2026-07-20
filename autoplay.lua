@@ -2,9 +2,9 @@ local currentKeys  = { 0x58, 0x43, 0x4E, 0x4D }
 local activeLaneCount = 4
 
 local HOLD_MIN_H   = 20
-local TAP_HOLD_SEC = 0.05
-local TOUCH_DIST   = 20
-local PAST_CATCH   = 25
+local TAP_HOLD_SEC = 0.07 -- 0.05
+local TOUCH_DIST   = 30   -- 20
+local PAST_CATCH   = 40   -- 25
 
 local LANE_COLORS = {
     Color3.fromRGB(210,  70, 255),
@@ -240,9 +240,9 @@ local conn = RS.RenderStepped:Connect(function()
                         local tailH = (tail and tryGet(function() return tail.AbsoluteSize.Y end)) or 0
                         local hitY = uiReceptorData[lane].hitY
 
-                        if tailH < 4 or (headCY - tailH) >= hitY then 
-                            release = true 
-                        end
+                        if tailH < 4 or (headCY - tailH) >= hitY - 2 then
+    release = true
+end
                     else
                         release = true
                     end
