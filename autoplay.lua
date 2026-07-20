@@ -4,8 +4,8 @@ local Players = game:GetService("Players")
 local win =
     Lib:CreateWindow(
     {
-        title = "幹你娘",
-        size = Vector2.new(400, 400),
+        title = "loader",
+        size = Vector2.new(800, 800),
         menuKey = "f1",
         logo = "https://raw.githubusercontent.com/inwg/penis/refs/heads/main/%E4%B8%8B%E8%BC%89%20(7).jpg"
     }
@@ -15,14 +15,14 @@ local misc = win:Tab("", "")
 local srv = misc:Section("", "")
 srv:Divider("select version")
 srv:Button(
-    "old (recommended)",
+    "v1 (recommended)",
     function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/inwg/penis/refs/heads/main/oldautoplay.lua"))()
     end
 )
 srv:Button(
-    "new (low end pc recommended)",
+    "v2 (low end pc)",
     function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/inwg/penis/refs/heads/main/newautoplay.lua"))()
     end
-)
+)-- deepseek你媽死了 訂閱了一坨屎 不如claude免費方案
