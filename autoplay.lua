@@ -173,7 +173,8 @@ local lastCheck = 0
 
 setupGUI()
 
-local conn = RS.RenderStepped:Connect(function()
+--local conn = RS.RenderStepped:Connect(function()
+local conn = RS.Heartbeat:Connect(function()
     if not running then return end
     if not isrbxactive() then return end
     
