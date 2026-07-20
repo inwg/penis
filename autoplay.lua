@@ -15,13 +15,13 @@ local misc = win:Tab("", "")
 local srv = misc:Section("", "")
 srv:Divider("select version")
 srv:Button(
-    "old",
+    "old (recommended)",
     function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/inwg/penis/refs/heads/main/oldautoplay.lua"))()
     end
 )
 srv:Button(
-    "new",
+    "new (low end pc recommended)",
     function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/inwg/penis/refs/heads/main/newautoplay.lua"))()
     end
