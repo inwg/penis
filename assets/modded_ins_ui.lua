@@ -4043,14 +4043,14 @@ local function buildSettingsTab(win, icon)
     if not ProjectState.defaultTheme then
         ProjectState.defaultTheme = { accentA = Theme.accentA, accentB = Theme.accentB, bg = Theme.bg, text = Theme.text, sidebar = Theme.sidebar }
     end
-    local presetChoices = { "Daniu" }
+    local presetChoices = { "Default" }
     for _, n in ipairs(ui:ThemePresets()) do presetChoices[#presetChoices + 1] = n end
     local presetDrop, c1pick, c2pick
     local function applyAccents(a, b)
         ProjectState.baseAccentA = a; ProjectState.baseAccentB = b
         if not ProjectState.rainbow then Theme.accentA = a; Theme.accentB = b end
     end
-    presetDrop = th:Dropdown("Preset", { "Daniu" }, presetChoices, false, function(v)
+    presetDrop = th:Dropdown("Preset", { "Default" }, presetChoices, false, function(v)
         local name = v[1]
         if name == "Default" then
             local dt = ProjectState.defaultTheme
