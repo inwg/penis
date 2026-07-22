@@ -3719,7 +3719,7 @@ end
 local DANIU_BG = "https://raw.githubusercontent.com/inwg/penis/refs/heads/main/assets/cute_logo.jpg"
 local function applyThemeExtras(name)
     if name == "Daniu" then
-        Theme.bg = WHITE; Theme.sidebar = WHITE
+        Theme.bg = WHITE; Theme.sidebar = Theme.bg
         ui:SetBackgroundImage(DANIU_BG, 0.12)
     elseif name == "NeverBlox" then
         Theme.bg = c3(15, 16, 21); Theme.sidebar = c3(12, 13, 17)
