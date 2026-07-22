@@ -214,8 +214,7 @@ local ThemePresets = {
     Steel     = { c3(120, 200, 220), c3(150, 160, 200) },
     Peach     = { c3(255, 180, 150), c3(255, 130, 160) },
     Neon      = { c3(0, 240, 255),   c3(180, 0, 255) },
-    Waifu     = { c3(150, 205, 120), c3(195, 230, 130) },
-    Daniu     = { c3(17, 36, 88), c3(11, 43, 91) },
+    Daniu     = { WHITE,             WHITE },
 }
 
 local AL = {
@@ -3717,14 +3716,10 @@ function ui:SetIcon(src)
     end)
     return self
 end
-local WAIFU_BG = "https://raw.githubusercontent.com/nvqren/Matcha-Waifu/refs/heads/main/waifu.png"
-local DANIU_BG = "https://raw.githubusercontent.com/inwg/penis/refs/heads/main/assets/assets/cute_logo.png"
+local DANIU_BG = "https://raw.githubusercontent.com/inwg/penis/refs/heads/main/assets/cute_logo.jpg"
 local function applyThemeExtras(name)
-    if name == "Waifu" then
+    if name == "Daniu" then
         Theme.bg = c3(15, 19, 13); Theme.sidebar = Theme.bg
-        ui:SetBackgroundImage(WAIFU_BG, 0.12)
-    elseif name == "Daniu" then
-        Theme.bg = c3(17, 36, 88); Theme.sidebar = Theme.bg
         ui:SetBackgroundImage(DANIU_BG, 0.12)
     elseif name == "NeverBlox" then
         Theme.bg = c3(15, 16, 21); Theme.sidebar = c3(12, 13, 17)
