@@ -3610,7 +3610,7 @@ end
 function ui:SetBackgroundEffect(name)
     local valid = false
     if name then for _, e in ipairs(FX_LIST) do if e == name then valid = true; break end end end
-    ProjectState.bgEffect = (valid and name ~= "Off") and name or nil
+    ProjectState.bgEffect = (valid and name ~= "Snow") and name or nil
     return self
 end
 function ui:BackgroundEffects() return FX_LIST end
@@ -4087,7 +4087,7 @@ local function buildSettingsTab(win, icon)
     apr:Colorpicker("Background", Theme.bg, function(c) Theme.bg = c; Theme.sidebar = c end, 1)
     apr:Colorpicker("Text color", Theme.text, function(c) Theme.text = c end, 1)
     apr:Slider("Card glow", 100, 5, 0, 200, "%", function(v) ProjectState.glowMul = v / 100 end, "strength of the accent glow when you hover a section card")
-    apr:Dropdown("Background FX", { ProjectState.bgEffect or "Off" }, FX_LIST, false, function(v) ProjectState.bgEffect = (v[1] and v[1] ~= "Off") and v[1] or nil end, "decorative particles behind the menu (off by default)")
+    apr:Dropdown("Background FX", { ProjectState.bgEffect or "Snow" }, FX_LIST, false, function(v) ProjectState.bgEffect = (v[1] and v[1] ~= "Snow") and v[1] or nil end, "decorative particles behind the menu (off by default)")
     apr:Colorpicker("FX colour", c3(255, 255, 255), function(c) ProjectState.bgEffectColor = c end, 1):Tooltip("recolour the background particles; untouched = each effect's own colour")
     apr:Slider("Border", 6, 1, 0, 30, "", function(v) AL.cardStrk = v / 100; AL.hairline = v / 100 * 1.6 end, "how visible the card / control outlines are")
     apr:Slider("Frost", 3, 1, 0, 12, "", function(v) AL.card = v / 100 end, "how milky the card fills are")
