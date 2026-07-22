@@ -1,7 +1,7 @@
 local HttpService = game:GetService("HttpService")
 local offsets
 
-for _, url in ipairs({"https://offsets.imtheo.lol/Offsets.json", "https://artxficial.dev/misc/theo"}) do
+for _, url in ipairs({"https://offsets.imtheo.lol/Offsets.json"}) do
     local success, result = pcall(function() 
         local data = HttpService:JSONDecode(game:HttpGet(url)) 
         return data.Offsets or data 
